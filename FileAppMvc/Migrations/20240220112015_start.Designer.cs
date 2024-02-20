@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FileAppMvc.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230320045202_AllowNull")]
-    partial class AllowNull
+    [Migration("20240220112015_start")]
+    partial class start
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,6 +36,9 @@ namespace FileAppMvc.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageBase64")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")

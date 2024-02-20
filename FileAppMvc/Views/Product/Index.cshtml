@@ -27,6 +27,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Image)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageBase64)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -48,6 +51,9 @@
                 </td>
                 <td>
                     <img src="@item.Image" height="50" class="rounded-2" />
+                </td>
+                <td>
+                    <img src="@item.ImageBase64" height="50" class="rounded-2" />
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.SqlServer.Server;
+using System;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FileAppMvc.Services
@@ -31,12 +33,21 @@ namespace FileAppMvc.Services
 
                 if (!Directory.Exists(uploads)) Directory.CreateDirectory(uploads);
 
-                //บันทึกรุปภาพใหม่
+                //แบบที่ 1 บันทึกรุปภาพใหม่(เป็นไฟล์ภายนอก database)
                 using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
                 {
                     file.CopyTo(fileStreams);
                 }
                 product.Image = @"\images\" + fileName + extension;
+
+                //แบบที่ 2 บันทึกเนื้อไฟล์แบบ Base64 (ภายใน database)
+                using (var memoryStream = new MemoryStream())
+                {
+                    var format = "image/png";
+                    await file.CopyToAsync(memoryStream);
+                    product.ImageBase64 = $"data:{format};base64,{Convert.ToBase64String(memoryStream.ToArray())}";
+                }
+
             }
 
             await dataContext.Products.AddAsync(product);
@@ -69,12 +80,20 @@ namespace FileAppMvc.Services
                     }
                 }
 
-                //บันทึกรุปภาพใหม่
+                //แบบที่ 1 บันทึกรุปภาพใหม่(เป็นไฟล์ภายนอก database)
                 using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
                 {
                     file.CopyTo(fileStreams);
                 }
                 product.Image = @"\images\" + fileName + extension;
+
+                //แบบที่ 2 บันทึกเนื้อไฟล์แบบ Base64 (ภายใน database)
+                using (var memoryStream = new MemoryStream())
+                {
+                    var format = "image/png";
+                    await file.CopyToAsync(memoryStream);
+                    product.ImageBase64 = $"data:{format};base64,{Convert.ToBase64String(memoryStream.ToArray())}";
+                }
             }
 
             dataContext.Products.Update(product);

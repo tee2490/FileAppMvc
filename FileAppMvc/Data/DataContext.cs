@@ -12,7 +12,7 @@ namespace FileAppMvc.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer("Server=.\\SqlExpress; Database=TestXX; Trusted_Connection=True; TrustServerCertificate=True");
+            optionsBuilder.UseSqlServer("Server=.\\SqlExpress; Database=Test5XX; Trusted_Connection=True; TrustServerCertificate=True");
         }
         public DbSet<Product> Products { get; set; }
     }
